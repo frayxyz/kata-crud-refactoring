@@ -3,8 +3,10 @@ package co.com.sofka.crud;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "tbl_todo")
 public class Todo {
     @Id
     @GeneratedValue
