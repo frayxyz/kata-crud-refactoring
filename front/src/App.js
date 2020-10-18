@@ -1,4 +1,7 @@
+import { Button } from '@material-ui/core';
 import React, { useContext, useReducer, useEffect, useRef, useState, createContext } from 'react';
+import styles from './style/styles';
+
 
 const HOST_API = "http://localhost:8080/api";
 const initialState = {
@@ -8,6 +11,8 @@ const Store = createContext(initialState)
 
 
 const Form = () => {
+  const classes = styles();
+
   const formRef = useRef(null);
   const { dispatch, state: { todo } } = useContext(Store);
   const item = todo.item;
@@ -73,7 +78,8 @@ const Form = () => {
         setState({ ...state, name: event.target.value })
       }}  ></input>
     {item.id && <button onClick={onEdit}>Actualizar</button>}
-    {!item.id && <button onClick={onAdd}>Crear</button>}
+    {!item.id && <Button variant="contained" color="primary"
+      className={classes.buttonAdd} onClick={onAdd}>Crear</Button>}
   </form>
 }
 
@@ -182,7 +188,7 @@ function reducer(state, action) {
     case 'add-item':
       const todoUp = state.todo.list;
       todoUp.push(action.item);
-      return { ...state, todo: {list: todoUp, item: {}} }
+      return { ...state, todo: { list: todoUp, item: {} } }
     default:
       return state;
   }
