@@ -22,26 +22,34 @@ const Form = () => {
   const onAdd = (event) => {
     event.preventDefault();
 
-    const request = {
-      name: state.name,
-      id: null,
-      completed: false
-    };
+
+    //validar que el name no sea nulo
+    if (state.name === "") {
+      alert("la tarea no puede estar vacia");
+    } else {
+      const request = {
+        name: state.name,
+        id: null,
+        completed: false
+      };
+
+      fetch(HOST_API + "/todo", {
+        method: "POST",
+        body: JSON.stringify(request),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(response => response.json())
+        .then((todo) => {
+          dispatch({ type: "add-item", item: todo });
+          setState({ name: "" });
+          formRef.current.reset();
+        });
+
+    }
 
 
-    fetch(HOST_API + "/todo", {
-      method: "POST",
-      body: JSON.stringify(request),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => response.json())
-      .then((todo) => {
-        dispatch({ type: "add-item", item: todo });
-        setState({ name: "" });
-        formRef.current.reset();
-      });
   }
 
   const onEdit = (event) => {
@@ -69,15 +77,23 @@ const Form = () => {
       });
   }
 
+  const onChangeName = (event) => {
+
+    if (event.target.value === " ") {
+      event.target.value = "";
+      console.log("ingreso un espacio");
+    };
+
+    setState({ ...state, name: event.target.value })
+  }
+
   return <form ref={formRef}>
     <input
       type="text"
       name="name"
       placeholder="¿Qué piensas hacer hoy?"
       defaultValue={item.name}
-      onChange={(event) => {
-        setState({ ...state, name: event.target.value })
-      }}  ></input>
+      onChange={onChangeName}  ></input>
     {item.id && <button onClick={onEdit}>Actualizar</button>}
     {!item.id && <Button variant="contained" color="primary"
       className={classes.buttonAdd} onClick={onAdd}>Crear</Button>}

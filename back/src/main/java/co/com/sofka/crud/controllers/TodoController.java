@@ -1,5 +1,8 @@
-package co.com.sofka.crud;
+package co.com.sofka.crud.controllers;
 
+import co.com.sofka.crud.models.TypeTodo;
+import co.com.sofka.crud.services.TodoService;
+import co.com.sofka.crud.models.Todo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,5 +40,6 @@ public class TodoController {
     public Todo get(@PathVariable("id") Long id){
         return service.get(id);
     }
+
 
 }
