@@ -1,6 +1,6 @@
 
 
-export function reducer(state, action) {
+export default function reducer(state, action) {
     switch (action.type) {
         case 'update-item':
             const todoUpItem = state.todo;
